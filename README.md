@@ -30,31 +30,6 @@ Backend API for the Kaelora E-commerce Platform.
 
 ---
 
-## 📂 Project Structure
-
-```bash
-├── config
-├── controllers
-├── middleware
-├── models
-├── routes
-├── utils
-├── server.js
-```
-
----
-
-
-
-## ▶️ Scripts
-
-```bash
-npm run dev
-npm start
-```
-
----
-
 
 
 ## 📸 Image Upload
@@ -87,5 +62,5 @@ Backend deployed on Render.
 
 Sojib Islam
 
-Frontend Developer & MERN Stack Learner
+Frontend Developer & MERN Stack Developer
 
