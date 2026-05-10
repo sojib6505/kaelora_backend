@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { loginOrRegister, getMe, updateProfile } = require("../controllers/authController");
+const { loginOrRegister, getMe, updateProfile } = require("../controllers/Authcontroller");
 const { protect } = require("../middleware/auth");
 
 router.post("/login", loginOrRegister);           // Firebase login/register
