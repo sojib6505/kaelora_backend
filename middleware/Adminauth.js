@@ -1,4 +1,4 @@
-const { protect } = require("./auth");
+const { protect } = require("./Auth");
 
 const adminOnly = (req, res, next) => {
   protect(req, res, () => {
