@@ -62,5 +62,5 @@ Backend deployed on Render.
 
 Sojib Islam
 
-Frontend Developer & MERN Stack Developer
+Frontend Developer & MERN Stack learner
 
