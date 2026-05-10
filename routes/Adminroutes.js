@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { adminOnly } = require("../middleware/adminAuth");
 const Banner = require("../models/Banner");
-const { uploadProduct } = require("../config/cloudinary");
+const { uploadProduct } = require("../config/Cloudinary");
 const {
   getDashboardStats,
   getAllProducts,
@@ -66,7 +66,7 @@ router.delete("/banners/:id", async (req, res) => {
   try {
     const banner = await Banner.findById(req.params.id);
     if (banner?.image?.publicId) {
-      const { cloudinary } = require("../config/cloudinary");
+      const { cloudinary } = require("../config/Cloudinary");
       await cloudinary.uploader.destroy(banner.image.publicId);
     }
     await banner.deleteOne();

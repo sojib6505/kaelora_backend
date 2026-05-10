@@ -1,5 +1,5 @@
 const Product = require("../models/Product");
-const { cloudinary } = require("../config/cloudinary");
+const { cloudinary } = require("../config/Cloudinary");
 
 // @desc  Get all products (with filter, search, pagination)
 // @route GET /api/products

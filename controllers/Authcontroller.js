@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const admin = require("../config/firebase");
+const admin = require("../config/Firebase");
 
 // @desc  Firebase login user MongoDB save 
 // @route POST /api/auth/login

@@ -1,7 +1,7 @@
 const Product = require("../models/Product");
 const Order = require("../models/Order");
 const User = require("../models/User");
-const { cloudinary } = require("../config/cloudinary");
+const { cloudinary } = require("../config/Cloudinary");
 
 // ==================== DASHBOARD ====================
 
