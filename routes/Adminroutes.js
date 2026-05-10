@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { adminOnly } = require("../middleware/adminAuth");
+const { adminOnly } = require("../middleware/Adminauth");
 const Banner = require("../models/Banner");
 const { uploadProduct } = require("../config/Cloudinary");
 const {
