@@ -16,7 +16,7 @@ const {
   updateOrderStatus,
   getAllUsers,
   updateUserRole,
-} = require("../controllers/adminController");
+} = require("../controllers/Admincontroller");
 
 // All admin routes protected
 router.use(adminOnly);
