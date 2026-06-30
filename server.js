@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-console.log("🔥 CART ROUTES LOADED");
+console.log(" CART ROUTES LOADED");
 // Routes
 app.use("/api/auth", require("./routes/Authroutes"));
 app.use("/api/products", require("./routes/Productroutes"));

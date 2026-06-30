@@ -2,6 +2,7 @@ const Order = require("../models/Order");
 const Product = require("../models/Product");
 const Cart = require("../models/Cart");
 const mongoose = require("mongoose");
+const sendOrderNotificationToAdmin = require("../utils/sendWhatsApp");
 
 // @desc  Place an order (logged in or guest)
 // @route POST /api/orders
@@ -18,13 +19,11 @@ const placeOrder = async (req, res) => {
 
     // ============================================================
     // 1-HOUR DUPLICATE PRODUCT ORDER CHECK
-    // Same product same user do not order next 1h
     // ============================================================
     if (req.user) {
       const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
 
       for (const item of items) {
-        // 1 hour check
         const recentOrder = await Order.findOne({
           user: req.user._id,
           "items.product": new mongoose.Types.ObjectId(item.productId),
@@ -78,7 +77,6 @@ const placeOrder = async (req, res) => {
         price: itemPrice,
       });
 
-      // Stock low
       product.stock -= item.quantity;
       await product.save();
     }
@@ -99,7 +97,9 @@ const placeOrder = async (req, res) => {
       statusHistory: [{ status: "pending", note: "Order placed" }],
     });
 
-    // Login  cart clear 
+    // 👇 WhatsApp notification — এখানে একবারই কল হচ্ছে
+    sendOrderNotificationToAdmin(order);
+
     if (req.user) {
       await Cart.findOneAndUpdate({ user: req.user._id }, { items: [] });
     }
@@ -180,9 +180,12 @@ const trackOrder = async (req, res) => {
   console.log("TRACK HIT", req.params.id);
   try {
     const order = await Order.findById(req.params.id).select(
-      "orderStatus paymentStatus statusHistory shippingAddress items createdAt totalAmount subtotal shippingCost paymentMethod"
+      "orderStatus paymentStatus statusHistory shippingAddress items createdAt totalAmount subtotal shippingCost paymentMethod",
     );
-    if (!order) return res.status(404).json({ success: false, message: "Order not found" });
+    if (!order)
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found" });
     res.status(200).json({ success: true, order });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -198,12 +201,17 @@ const trackByPhone = async (req, res) => {
     const orders = await Order.find({
       "shippingAddress.phone": phone,
     })
-      .select("orderStatus paymentStatus shippingAddress items createdAt totalAmount subtotal shippingCost paymentMethod statusHistory")
+      .select(
+        "orderStatus paymentStatus shippingAddress items createdAt totalAmount subtotal shippingCost paymentMethod statusHistory",
+      )
       .sort({ createdAt: -1 })
       .limit(10);
 
     if (!orders.length) {
-      return res.status(404).json({ success: false, message: "এই নম্বরে কোনো অর্ডার পাওয়া যায়নি" });
+      return res.status(404).json({
+        success: false,
+        message: "এই নম্বরে কোনো অর্ডার পাওয়া যায়নি",
+      });
     }
 
     res.status(200).json({ success: true, orders });
@@ -212,6 +220,10 @@ const trackByPhone = async (req, res) => {
   }
 };
 
-module.exports = { placeOrder, getMyOrders, getOrder, trackOrder, trackByPhone };
-
-
+module.exports = {
+  placeOrder,
+  getMyOrders,
+  getOrder,
+  trackOrder,
+  trackByPhone,
+};
