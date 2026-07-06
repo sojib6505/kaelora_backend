@@ -23,6 +23,7 @@ app.use("/api/cart", require("./routes/Cartroutes"));
 app.use("/api/orders", require("./routes/Orderroutes"));
 app.use("/api/admin", require("./routes/Adminroutes"));
 app.use("/api/banners", require("./routes/bannerRoutes"));
+app.use("/api/chat", require("./routes/Chatroutes"));
 
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
